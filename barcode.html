@@ -31,6 +31,7 @@
             const lines = codes_value.split(/\r|\r\n|\n/);
             const count = lines.length;
             console.log(lines);
+            barcode.innerHTML = '';
             for(let i = 0; i < parseInt(count); i++){
                  html += `<img class='imgStyle' src='http://bwipjs-api.metafloor.com/?bcid=code128&text=${lines[i]}&scale=2&includetext'>`;
             }
