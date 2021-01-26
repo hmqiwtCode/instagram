@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Barcode 128 Generator</title>
+    <style>
+        .imgStyle{
+            margin: 20px;
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <h1>Barcode 128 Generator</h1>
+        <textarea id="codes" rows="20" cols="50" placeholder="Nhập code, mỗi code 1 dòng..." onchange="getRowCount()"></textarea>
+        <p>Total: <span id="total" style="color: red;">0</span></p>
+        <input type="submit" value="Go" onclick="getGenerate()"/>
+        <div id="barcode" style="margin:20px;padding:20px">
+
+        </div>
+    </div>
+
+    <script>
+        async function getGenerate(){
+            let html = '';
+            const codes = document.getElementById('codes');
+            const barcode = document.getElementById('barcode');
+            const codes_value = codes.value;
+            const lines = codes_value.split(/\r|\r\n|\n/);
+            const count = lines.length;
+            console.log(lines);
+            for(let i = 0; i < parseInt(count); i++){
+                 html += `<img class='imgStyle' src='http://bwipjs-api.metafloor.com/?bcid=code128&text=${lines[i]}&scale=2&includetext'>`;
+            }
+            barcode.innerHTML  += html;
+        }
+
+        function getRowCount(){
+            const text = document.getElementById('codes').value;
+            const line = text.split(/\r|\r\n|\n/).length;
+            if(text.trim() == ''){
+                document.getElementById('total').innerText = 0;
+            }else{
+                document.getElementById('total').innerText = line;
+            }
+            
+        }
+        
+
+    </script>
+</body>
+</html>
