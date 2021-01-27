@@ -56,7 +56,7 @@
                     html += '<tr>';
                 count1++;
                 html += `<td onclick='checkDone(this,${lines[i]})'><img class='imgStyle' src='http://bwipjs-api.metafloor.com/?bcid=code128&text=${lines[i].trim()}&scale=2&includetext'></td>`;
-                if(count1 == 2 || i == count-1){
+                if(count1 == 2 || i == parseInt(count)-1){
                     html += '</tr>'; 
                     count1 = 0;
                 }
