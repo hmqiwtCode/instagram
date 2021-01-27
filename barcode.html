@@ -9,6 +9,23 @@
             margin: 20px;
             padding: 20px;
         }
+        table {
+            font-family: arial, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th {
+            border: 1px solid #dddddd;
+            text-align: center;
+            padding: 8px;
+        }
+
+        td{
+            border: 1px solid #dddddd;
+            text-align: center;
+            padding: 80px;
+        }
     </style>
 </head>
 <body>
@@ -16,6 +33,7 @@
         <h1>Barcode 128 Generator</h1>
         <textarea id="codes" rows="20" cols="50" placeholder="Nhập code, mỗi code 1 dòng..." onchange="getRowCount()"></textarea>
         <p>Total: <span id="total" style="color: red;">0</span></p>
+        <p><strong>Chú ý: </strong><span style="color: red;"><i>Scan xong mã nào Chị cứ bấm vào cái mã đó nó sẽ biến mất.</i></span></p>
         <input type="submit" value="Go" onclick="getGenerate()"/>
         <div id="barcode" style="margin:20px;padding:20px">
 
@@ -30,12 +48,20 @@
             const codes_value = codes.value;
             const lines = codes_value.split(/\r|\r\n|\n/);
             const count = lines.length;
-            console.log(lines);
             barcode.innerHTML = '';
+            html += '<table><tr><th>#COLUMN_1</th><th>#COLUMN_2</th></tr>';
+            let count1 = 0;
             for(let i = 0; i < parseInt(count); i++){
-                 html += `<img class='imgStyle' src='http://bwipjs-api.metafloor.com/?bcid=code128&text=${lines[i]}&scale=2&includetext'>`;
+                if(count1 == 0)
+                    html += '<tr>';
+                count1++;
+                html += `<td onclick='checkDone(this,${lines[i]})'><img class='imgStyle' src='http://bwipjs-api.metafloor.com/?bcid=code128&text=${lines[i].trim()}&scale=2&includetext'></td>`;
+                if(count1 == 2 || i == count-1){
+                    html += '</tr>'; 
+                    count1 = 0;
+                }
             }
-            barcode.innerHTML  += html;
+            barcode.innerHTML  += html + '</table>';
         }
 
         function getRowCount(){
@@ -47,6 +73,11 @@
                 document.getElementById('total').innerText = line;
             }
             
+        }
+
+        function checkDone(el,number){
+            alert('Sau khi Chị bấm OK mã ' + number + ' sẽ biến mất');
+            el.style.display = "none";
         }
         
 
